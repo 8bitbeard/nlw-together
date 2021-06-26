@@ -29,6 +29,10 @@ const deleteUserController = new DeleteUserController()
 const listTagsController = new ListTagsController()
 const listUsersController = new ListUsersController()
 
+
+// Authentication
+router.post("/login", authenticateUserController.handle)
+
 // Users
 router.post("/users", createUserController.handle);
 router.put("/users", ensureAuthenticated, ensureAdmin, updateUserController.handle);
@@ -41,9 +45,6 @@ router.patch("/users/password", ensureAuthenticated, updateUserPasswordControlle
 // Tags
 router.post("/tags", ensureAuthenticated, ensureAdmin, createTagController.handle);
 router.get("/tags", ensureAuthenticated, listTagsController.handle);
-
-// Authentication
-router.post("/login", authenticateUserController.handle)
 
 // Compliments
 router.post("/compliments", ensureAuthenticated, createComplimentController.handle)
