@@ -7,6 +7,10 @@ import { ListUserSendComplimentsController } from "./controllers/ListUserSendCom
 import { ListUserReceiveComplimentsController } from "./controllers/ListUserReceiveComplimentsController";
 import { ListTagsController } from "./controllers/ListTagsController";
 import { ListUsersController } from "./controllers/ListUsersController";
+import { DeleteComplimentController } from "./controllers/DeleteComplimentController";
+import { UpdateUserController } from "./controllers/UpdateUserController";
+import { UpdateUserPasswordController } from "./controllers/UpdateUserPasswordController";
+import { DeleteUserController } from "./controllers/DeleteUserController";
 import { ensureAdmin } from "./middlewares/ensureAdmin";
 import { ensureAuthenticated } from "./middlewares/ensureAuthenticated";
 
@@ -18,18 +22,32 @@ const authenticateUserController = new AuthenticateUserController();
 const createComplimentController = new CreateComplimentController();
 const listUserSendComplimentsController = new ListUserSendComplimentsController()
 const listUserReceiveComplimentsController = new ListUserReceiveComplimentsController()
+const deleteComplimentController = new DeleteComplimentController()
+const updateUserController = new UpdateUserController()
+const updateUserPasswordController = new UpdateUserPasswordController()
+const deleteUserController = new DeleteUserController()
 const listTagsController = new ListTagsController()
 const listUsersController = new ListUsersController()
 
-router.post("/users", createUserController.handle)
-router.post("/tags", ensureAuthenticated, ensureAdmin, createTagController.handle)
-router.post("/login", authenticateUserController.handle)
-router.post("/compliments", ensureAuthenticated, createComplimentController.handle)
-
+// Users
+router.post("/users", createUserController.handle);
+router.put("/users", ensureAuthenticated, ensureAdmin, updateUserController.handle);
+router.get("/users", ensureAuthenticated, listUsersController.handle);
+router.delete("/users/:id", ensureAuthenticated, ensureAdmin, deleteUserController.handle);
 router.get("/users/compliments/send", ensureAuthenticated, listUserSendComplimentsController.handle)
 router.get("/users/compliments/receive", ensureAuthenticated, listUserReceiveComplimentsController.handle)
+router.patch("/users/password", ensureAuthenticated, updateUserPasswordController.handle)
 
+// Tags
+router.post("/tags", ensureAuthenticated, ensureAdmin, createTagController.handle);
 router.get("/tags", ensureAuthenticated, listTagsController.handle);
-router.get("/users", ensureAuthenticated, listUsersController.handle)
+
+// Authentication
+router.post("/login", authenticateUserController.handle)
+
+// Compliments
+router.post("/compliments", ensureAuthenticated, createComplimentController.handle)
+router.delete("/compliments/:id", ensureAuthenticated, deleteComplimentController.handle)
+
 
 export { router }
