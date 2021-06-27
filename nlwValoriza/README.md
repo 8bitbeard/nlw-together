@@ -55,5 +55,4 @@ Link: https://8bitbeard.github.io/nlw-together/nlwValoriza/#/
 
 ## Diagrama de Tabelas do Banco de Dados:
 
-
-##
+![Diagrama de Tabelas](./images/table_diagram.png)
